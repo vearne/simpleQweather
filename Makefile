@@ -8,6 +8,6 @@ LDFLAGS = -ldflags "-s -w"
 build:
 	CGO_ENABLED=0 go build $(LDFLAGS) -o $(BIN_NAME)
 
-img:
+image:
 	docker build --rm -t $(CONTAINER) -f Dockerfile .
 
