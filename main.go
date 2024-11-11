@@ -5,10 +5,23 @@ import (
 	"github.com/go-resty/resty/v2"
 	"log"
 	"net/http"
+	"strconv"
+	"time"
 )
 
 func main() {
 	r := gin.Default()
+	g := r.Group("/api")
+	g.GET("/time", func(c *gin.Context) {
+		c.JSON(http.StatusOK, map[string]string{
+			"time": time.Now().Format(time.DateTime),
+		})
+	})
+	g.GET("/timeSecond", func(c *gin.Context) {
+		c.JSON(http.StatusOK, map[string]string{
+			"time": strconv.Itoa(int(time.Now().Unix())),
+		})
+	})
 	r.GET("/v7/weather/now", func(c *gin.Context) {
 		location := c.Query("location")
 		language := c.Query("lang")
@@ -31,5 +44,5 @@ func main() {
 		log.Println(resp.Request.URL)
 		c.String(http.StatusOK, resp.String())
 	})
-	r.Run(":28083") // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
+	r.Run(":28683")
 }
